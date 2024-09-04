@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 int main() {
     /*
@@ -28,5 +29,26 @@ int main() {
     char palavraSecreta[20];
 
     sprintf(palavraSecreta, "MELANCIA");
-    printf("%s", palavraSecreta);
+    // printf("%s", palavraSecreta);
+
+    int acertou = 0;
+    int enforcou = 0;
+
+    do {
+        char chute;
+        scanf("%c", &chute);
+
+        for (int i = 0; i < strlen(palavraSecreta); i++) {
+            if (palavraSecreta[i] == chute ) {
+                printf("A posicao %d tem a letra %c\n", i, chute);
+            } else {
+                printf("A palavra nao tem a letra %c\n", chute);
+            }
+        }
+
+    } while(!acertou && enforcou == 0); // Usar a exclamação para negar a condição é igual o '== 0'. Usamos isso porque as variáveis são boolenas.
+
+
+
+    
 }
