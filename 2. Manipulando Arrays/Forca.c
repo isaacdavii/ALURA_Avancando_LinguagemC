@@ -1,21 +1,26 @@
 #include <stdio.h>
 #include <string.h>
 
+// Variáveis globais porque todas as funções manipulam essas variáveis
+char palavraSecreta[20];
+char chutes[26]; // Array para guardar os chutes
+int tentativas = 0; // Contador de tentativas
+
 void abertura() {
     printf("*********************\n");
     printf("*   Jogo de Forca   *\n");
     printf("*********************\n");
 }
 
-void chuta(char chutes[26], int* tentativas) { // Colocamos a estrela para receber o endereço de tentativas
+void chuta() { // Colocamos a estrela para receber o endereço de tentativas
     char chute;
     scanf(" %c", &chute);
     
-    chutes[(*tentativas)] = chute;
-    (*tentativas)++;
+    chutes[tentativas] = chute;
+    tentativas++;
 }
 
-int jaChutou (char letra, char chutes[26], int tentativas) {
+int jaChutou (char letra) {
     int achou = 0;
 
     for (int j = 0; j < tentativas; j++) {
@@ -28,10 +33,10 @@ int jaChutou (char letra, char chutes[26], int tentativas) {
     return achou;
 }
 
-void desenhaForca(char palavraSecreta[20], char chutes[26], int tentativas) {
+void desenhaForca() {
     for (int i = 0; i < strlen(palavraSecreta); i++) {
         
-        int achou = jaChutou(palavraSecreta[i], chutes, tentativas);
+        int achou = jaChutou(palavraSecreta[i]);
 
         if (achou) {
             printf("%c ", palavraSecreta[i]);
@@ -42,7 +47,7 @@ void desenhaForca(char palavraSecreta[20], char chutes[26], int tentativas) {
     printf("\n");
 }
 
-void escolhePalavra(char palavraSecreta[20]) {
+void escolhePalavra() {
     sprintf(palavraSecreta, "MELANCIA");
 }
 
@@ -71,8 +76,6 @@ int main() {
     }
     */
 
-    char palavraSecreta[20];
-
     /* 9. Escolhendo a palavra secreta
         sprintf(palavraSecreta, "MELANCIA");
         printf("%s", palavraSecreta); // %s para string
@@ -81,15 +84,12 @@ int main() {
     int acertou = 0;
     int enforcou = 0;
 
-    char chutes[26]; // Array para guardar os chutes
-    int tentativas = 0; // Contador de tentativas
-
     /* 5. Fazendo um cabeçalho - ABERTURA
     printf("*********************\n");
     printf("*   Jogo de Forca   *\n");
     printf("*********************\n");
     */
-
+    escolhePalavra();
     abertura();
 
     do {
@@ -117,7 +117,7 @@ int main() {
         printf("\n");
         */
 
-        desenhaForca(palavraSecreta, chutes, tentativas);
+        desenhaForca();
 
         /* 4. Verificando se o chute está na palavra
         for (int i = 0; i < strlen(palavraSecreta); i++) { // Loop para varrer o Array verificando compatibilidade
@@ -136,7 +136,7 @@ int main() {
         tentativas++;
         */
         
-        chuta(chutes, &tentativas); // Passamos o endereço em tentativas para se ler na função
+        chuta(); // Passamos o endereço em tentativas para se ler na função
 
     } while(!acertou && enforcou == 0); // Usar a exclamação para negar a condição é igual o '== 0'. Usamos isso porque as variáveis são boolenas.
 
