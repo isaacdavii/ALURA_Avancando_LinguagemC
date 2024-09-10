@@ -1,6 +1,19 @@
 #include <stdio.h>
 #include <string.h>
 
+void abertura() {
+    printf("*********************\n");
+    printf("*   Jogo de Forca   *\n");
+    printf("*********************\n");
+}
+
+void chuta(char chutes[26], int tentativas) {
+    char chute;
+    scanf(" %c", &chute);
+    
+    chutes[tentativas] = chute;
+}
+
 int main() {
     /* 1. Inicialiando uma palavra
     char letra1 = 'M';    char letra2 = 'E';    char letra3 = 'L';    char letra4 = 'A';    char letra5 = 'O';
@@ -37,6 +50,13 @@ int main() {
     char chutes[26]; // Array para guardar os chutes
     int tentativas = 0; // Contador de tentativas
 
+    /* 5. Fazendo um cabeçalho - ABERTURA
+    printf("*********************\n");
+    printf("*   Jogo de Forca   *\n");
+    printf("*********************\n");
+    */
+
+    abertura();
 
     do {
 
@@ -44,9 +64,9 @@ int main() {
 
             int achou = 0;
 
-            for (int j = 0; j < tentativas; j++) {
-                if (chutes[j] == palavraSecreta[i]) {
-                    achou = 1;
+            for (int j = 0; j < tentativas; j++) { // Percorre todas as tentativas feitas até o momento
+                if (chutes[j] == palavraSecreta[i]) { // Percorre todas as letras da palavra secreta
+                    achou = 1; 
                     break;
                 }
             }
@@ -59,10 +79,7 @@ int main() {
             
         }
         printf("\n");
-
-        char chute;
-        scanf(" %c", &chute); // Eu tenho que colocar o espaço para que ignore o ENTER para não ser contado como CHAR
-
+        
         /* 4. Verificando se o chute está na palavra
         for (int i = 0; i < strlen(palavraSecreta); i++) { // Loop para varrer o Array verificando compatibilidade
             if (palavraSecreta[i] == chute ) {
@@ -72,17 +89,17 @@ int main() {
             }
         }
         */
-
-       chutes[tentativas] = chute;
-       tentativas++;
-
-
-
         
+        /* 6. Recebe um novo chute
+        char chute;
+        scanf(" %c", &chute); // Eu tenho que colocar o espaço para que ignore o ENTER para não ser contado como CHAR
+        chutes[tentativas] = chute;
+        tentativas++;
+        */
+        
+        chuta(chutes, tentativas);
+        tentativas++;
 
     } while(!acertou && enforcou == 0); // Usar a exclamação para negar a condição é igual o '== 0'. Usamos isso porque as variáveis são boolenas.
 
-
-
-    
 }
