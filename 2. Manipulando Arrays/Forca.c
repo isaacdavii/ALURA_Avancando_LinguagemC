@@ -7,11 +7,25 @@ void abertura() {
     printf("*********************\n");
 }
 
-void chuta(char chutes[26], int tentativas) {
+void chuta(char chutes[26], int* tentativas) { // Colocamos a estrela para receber o endereço de tentativas
     char chute;
     scanf(" %c", &chute);
     
-    chutes[tentativas] = chute;
+    chutes[(*tentativas)] = chute;
+    (*tentativas)++;
+}
+
+int jaChutou (char letra, char chutes[26], int tentativas) {
+    int achou = 0;
+
+    for (int j = 0; j < tentativas; j++) {
+        if (chutes[j] == letra) {
+            achou = 1; 
+            break;
+        }
+    }
+
+    return achou;
 }
 
 int main() {
@@ -62,14 +76,15 @@ int main() {
 
         for (int i = 0; i < strlen(palavraSecreta); i++) {
 
-            int achou = 0;
-
+            /* 7. Verificando se a letra já foi chutada ou não
             for (int j = 0; j < tentativas; j++) { // Percorre todas as tentativas feitas até o momento
                 if (chutes[j] == palavraSecreta[i]) { // Percorre todas as letras da palavra secreta
                     achou = 1; 
                     break;
                 }
             }
+            */
+           int achou = jaChutou(palavraSecreta[i], chutes, tentativas);
 
             if (achou) {
                 printf("%c ", palavraSecreta[i]);
@@ -97,8 +112,8 @@ int main() {
         tentativas++;
         */
         
-        chuta(chutes, tentativas);
-        tentativas++;
+        chuta(chutes, &tentativas); // Passamos o endereço em tentativas para se ler na função
+        
 
     } while(!acertou && enforcou == 0); // Usar a exclamação para negar a condição é igual o '== 0'. Usamos isso porque as variáveis são boolenas.
 
