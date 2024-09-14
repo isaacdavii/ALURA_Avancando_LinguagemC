@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h> // Função rand()
+#include "Forca.h" // Incluindo o arquivo de cabeçalho
 
 /* 12. Coloco a assinatura das funções que existem neste arquivo. Assim, o arquivo roda independente da ordem das funções
 void aberura();
@@ -58,7 +61,24 @@ void desenhaForca() {
 }
 
 void escolhePalavra() {
-    sprintf(palavraSecreta, "MELANCIA");
+    //sprintf(palavraSecreta, "MELANCIA");
+
+    FILE* f = fopen("palavras.txt", "r");
+
+    if (!f)
+        return printf("Erro ao abrir o arquivo\n");
+    
+    int quantidadePalavras;
+    fscanf(f, "%d", &quantidadePalavras);
+
+    srand(time(0));
+    int randomico = rand() % quantidadePalavras; // Seleciona um número entre 0 e a quantidade de palavras
+
+    for (int k = 0; k <= randomico; k++) {
+        fscanf(f, "%s", palavraSecreta);
+    }
+
+    fclose(f);
 }
 
 int enforcou() {
