@@ -68,7 +68,7 @@ void escolhePalavra() {
         return printf("Erro ao abrir o arquivo!\n");
     
     int quantidadePalavras;
-    fscanf(f, "%d", &quantidadePalavras);
+    fscanf(f, "%d", &quantidadePalavras); // Lê a primeira linha automaticamente
 
     srand(time(0));
     int randomico = rand() % quantidadePalavras; // Seleciona um número entre 0 e a quantidade de palavras
