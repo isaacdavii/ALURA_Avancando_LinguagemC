@@ -64,9 +64,8 @@ void escolhePalavra() {
     //sprintf(palavraSecreta, "MELANCIA");
 
     FILE* f = fopen("palavras.txt", "r");
-
     if (!f)
-        return printf("Erro ao abrir o arquivo\n");
+        return printf("Erro ao abrir o arquivo!\n");
     
     int quantidadePalavras;
     fscanf(f, "%d", &quantidadePalavras);
@@ -108,6 +107,43 @@ int acertou() { // Se eu acertar o chute ou não
         }
     }
     return 1;
+}
+
+void adicionaPalavra() {
+
+    char resposta;
+
+    printf("Voce deseja adicionar uma nova palavra no jogo? (S/N) \n");
+    scanf(" %c", &resposta);
+
+    if (resposta == 'S') {
+
+        char novaPalavra[20];
+        printf("Qual a nova palavra? ");
+        scanf("%s", novaPalavra);
+
+        FILE* f = fopen("palavras.txt", "r+");
+        if (!f)
+            return printf("Erro ao abrir o arquivo!\n");
+
+        int quantidade;
+        fscanf(f, "%d", &quantidade);
+        quantidade++;
+
+        fseek(f, 0, SEEK_SET); // "SEEK_SET" é orientado para o início do arquivo
+        fprintf(f, "%d", quantidade);
+
+        fseek(f, 0, SEEK_END); // "SEEK_END" é orientado para o final do arquivo
+        fprintf(f, "\n%s", novaPalavra);
+
+        fclose(f);
+
+    } else {
+        printf("Fim de jogo! Obrigado por jogar!\n");
+    }
+
+
+
 }
 
 int main() {
@@ -203,5 +239,7 @@ int main() {
         chuta(); // Passamos o endereço em tentativas para se ler na função
 
     } while(!acertou() && enforcou() == NULL); // Usar a exclamação para negar a condição é igual o '== 0'. Usamos isso porque as variáveis são boolenas.
+
+    adicionaPalavra();
 
 }
