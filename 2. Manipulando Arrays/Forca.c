@@ -51,6 +51,26 @@ void escolhePalavra() {
     sprintf(palavraSecreta, "MELANCIA");
 }
 
+int enforcou() {
+    int erros = 0;
+    for (int i = 0; i < tentativas; i++) {
+        int achou = 0;
+
+        for (int j = 0; j < strlen(palavraSecreta); j++) {
+            if (chutes[i] == palavraSecreta[j]) {
+                achou = 1;
+                break;
+            }
+        }
+
+        if (!achou) {
+            erros++;
+            //return 1;
+        }
+    }
+    return erros >= 5;
+}
+
 int main() {
     /* 1. Inicialiando uma palavra
     char letra1 = 'M';    char letra2 = 'E';    char letra3 = 'L';    char letra4 = 'A';    char letra5 = 'O';
@@ -82,7 +102,12 @@ int main() {
     */
 
     int acertou = 0;
+
+    /* 10. Criei uma função 'int enforcou()' para usar
     int enforcou = 0;
+    */
+    
+    
 
     /* 5. Fazendo um cabeçalho - ABERTURA
     printf("*********************\n");
@@ -138,6 +163,6 @@ int main() {
         
         chuta(); // Passamos o endereço em tentativas para se ler na função
 
-    } while(!acertou && enforcou == 0); // Usar a exclamação para negar a condição é igual o '== 0'. Usamos isso porque as variáveis são boolenas.
+    } while(!acertou && enforcou() == NULL); // Usar a exclamação para negar a condição é igual o '== 0'. Usamos isso porque as variáveis são boolenas.
 
 }
