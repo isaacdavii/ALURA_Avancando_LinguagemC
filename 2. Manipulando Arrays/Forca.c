@@ -1,10 +1,22 @@
 #include <stdio.h>
 #include <string.h>
 
+/* 12. Coloco a assinatura das funções que existem neste arquivo
+       Assim, o arquivo roda independente da ordem das funções
+void aberura();
+void chuta();
+int jaChutou(char letra);
+void desenhaForca();
+void escolhePalavra();
+int enforcou();
+int acertou();
+*/
+
+
 // Variáveis globais porque todas as funções manipulam essas variáveis
 char palavraSecreta[20];
 char chutes[26]; // Array para guardar os chutes
-int tentativas = 0; // Contador de tentativas
+int chutesDados = 0; // Contador de tentativas (tentativas == chutesDados)
 
 void abertura() {
     printf("*********************\n");
@@ -16,14 +28,14 @@ void chuta() { // Colocamos a estrela para receber o endereço de tentativas
     char chute;
     scanf(" %c", &chute);
     
-    chutes[tentativas] = chute;
-    tentativas++;
+    chutes[chutesDados] = chute;
+    chutesDados++;
 }
 
 int jaChutou (char letra) {
     int achou = 0;
 
-    for (int j = 0; j < tentativas; j++) {
+    for (int j = 0; j < chutesDados; j++) {
         if (chutes[j] == letra) {
             achou = 1; 
             break;
@@ -53,7 +65,7 @@ void escolhePalavra() {
 
 int enforcou() {
     int erros = 0;
-    for (int i = 0; i < tentativas; i++) {
+    for (int i = 0; i < chutesDados; i++) {
         int achou = 0;
 
         for (int j = 0; j < strlen(palavraSecreta); j++) {
@@ -69,6 +81,15 @@ int enforcou() {
         }
     }
     return erros >= 5;
+}
+
+int acertou() { // Se eu acertar o chute ou não
+    for (int i = 0; i < strlen(palavraSecreta); i++) {
+        if (!jaChutou(palavraSecreta[i])) {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 int main() {
@@ -100,15 +121,15 @@ int main() {
         sprintf(palavraSecreta, "MELANCIA");
         printf("%s", palavraSecreta); // %s para string
     */
-
-    int acertou = 0;
+   
+   /* 11. Crio uma função 'int acertou()' para dizer se ele acertou ou não
+   int acertou = 0;
+   */
 
     /* 10. Criei uma função 'int enforcou()' para usar
     int enforcou = 0;
     */
     
-    
-
     /* 5. Fazendo um cabeçalho - ABERTURA
     printf("*********************\n");
     printf("*   Jogo de Forca   *\n");
@@ -163,6 +184,6 @@ int main() {
         
         chuta(); // Passamos o endereço em tentativas para se ler na função
 
-    } while(!acertou && enforcou() == NULL); // Usar a exclamação para negar a condição é igual o '== 0'. Usamos isso porque as variáveis são boolenas.
+    } while(!acertou() && enforcou() == NULL); // Usar a exclamação para negar a condição é igual o '== 0'. Usamos isso porque as variáveis são boolenas.
 
 }
