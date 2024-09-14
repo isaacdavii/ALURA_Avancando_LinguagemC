@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-/* 12. Coloco a assinatura das funções que existem neste arquivo
-       Assim, o arquivo roda independente da ordem das funções
+/* 12. Coloco a assinatura das funções que existem neste arquivo. Assim, o arquivo roda independente da ordem das funções
 void aberura();
 void chuta();
 int jaChutou(char letra);
@@ -11,7 +10,6 @@ void escolhePalavra();
 int enforcou();
 int acertou();
 */
-
 
 // Variáveis globais porque todas as funções manipulam essas variáveis
 char palavraSecreta[20];
