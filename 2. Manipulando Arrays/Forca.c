@@ -15,7 +15,7 @@ int acertou();
 */
 
 // Variáveis globais porque todas as funções manipulam essas variáveis
-char palavraSecreta[20];
+char palavraSecreta[TAMANHO_PALAVRA];
 char chutes[26]; // Array para guardar os chutes
 int chutesDados = 0; // Contador de tentativas (tentativas == chutesDados)
 
@@ -118,7 +118,7 @@ void adicionaPalavra() {
 
     if (resposta == 'S') {
 
-        char novaPalavra[20];
+        char novaPalavra[TAMANHO_PALAVRA];
         printf("Qual a nova palavra? ");
         scanf("%s", novaPalavra);
 
@@ -142,7 +142,11 @@ void adicionaPalavra() {
         printf("Fim de jogo! Obrigado por jogar!\n");
     }
 
-
+    if (acertou()) {
+        printf("Parabéns! Você ganhou!\n");
+    } else {
+        printf("Você perdeu! Tente novamente!\n");
+    }
 
 }
 

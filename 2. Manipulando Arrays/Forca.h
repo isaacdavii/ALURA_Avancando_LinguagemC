@@ -1,3 +1,5 @@
+#define TAMANHO_PALAVRA 20
+
 void aberura();
 void chuta();
 int jaChutou(char letra);
