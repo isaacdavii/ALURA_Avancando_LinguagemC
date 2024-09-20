@@ -27,7 +27,15 @@ void abertura() {
 
 void chuta() { // Colocamos a estrela para receber o endereço de tentativas
     char chute;
+
+    printf("Qual letra? ");
     scanf(" %c", &chute);
+
+    if(letraExiste(chute)) {
+        printf("Voce acertou: a palavra tem a letra %c\n\n", chute);
+    } else {
+        printf("Voce errou: a palavra NAO tem a letra %c\n\n", chute);
+    }
     
     chutes[chutesDados] = chute;
     chutesDados++;
@@ -47,16 +55,33 @@ int jaChutou (char letra) {
 }
 
 void desenhaForca() {
-    for (int i = 0; i < strlen(palavraSecreta); i++) {
-        
-        int achou = jaChutou(palavraSecreta[i]);
 
-        if (achou) {
+    int erros = chutesErrados();
+
+    printf("  _______      \n");
+    printf(" |/      |     \n");
+    printf(" |      %c%c%c    \n", (erros >= 1 ? '(' : ' '),
+                                   (erros >= 1 ? '_' : ' '),
+                                   (erros >= 1 ? ')' : ' '));
+    printf(" |      %c%c%c   \n",  (erros >= 3 ? '\\' : ' '), 
+                                   (erros >= 2 ? '|' : ' '),
+                                   (erros >= 3 ?  '/' : ' '));
+    printf(" |       %c     \n",   (erros >= 2 ? '|' : ' '));
+    printf(" |      %c %c   \n",   (erros >= 4 ? '/' : ' '), 
+                                   (erros >= 4 ? '\\' : ' '));
+    printf(" |             \n");
+    printf("_|___          \n");
+    printf("\n\n");
+
+    for (int i = 0; i < strlen(palavraSecreta); i++) {
+
+        if (jaChutou(palavraSecreta[i])) {
             printf("%c ", palavraSecreta[i]);
         } else {
             printf("_ ");
         }
     }
+    
     printf("\n");
 }
 
@@ -80,11 +105,27 @@ void escolhePalavra() {
     fclose(f);
 }
 
-int enforcou() {
-    int erros = 0;
-    for (int i = 0; i < chutesDados; i++) {
-        int achou = 0;
+int letraExiste(char letra) {
 
+    for (int j = 0; j < strlen(palavraSecreta); j++) {
+        if (letra == palavraSecreta[j]) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int chutesErrados() {
+    int erros = 0;
+
+    for (int i = 0; i < chutesDados; i++) {
+        if (!letraExiste(chutes[i])) {
+            erros++;
+        }
+    }
+
+    /* 13. Substituo o loop abaixo pelo 'int letraExiste(char letra)'
         for (int j = 0; j < strlen(palavraSecreta); j++) {
             if (chutes[i] == palavraSecreta[j]) {
                 achou = 1;
@@ -93,11 +134,16 @@ int enforcou() {
         }
 
         if (!achou) {
-            erros++;
-            //return 1;
+            erros++; //return 1;
         }
     }
-    return erros >= 5;
+    */
+
+    return erros;
+}
+
+int enforcou() { // Se eu enforquei ou não
+    return chutesErrados() >= 5;
 }
 
 int acertou() { // Se eu acertar o chute ou não
@@ -109,17 +155,40 @@ int acertou() { // Se eu acertar o chute ou não
     return 1;
 }
 
+int ganhou() {
+
+    for(int i = 0; i < strlen(palavraSecreta); i++) {
+        if (!jaChutou(palavraSecreta[i])) {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
 void adicionaPalavra() {
 
     char resposta;
 
+    /* 14. Jogando na função ganhou()
+
+    printf("Fim de jogo! Obrigado por jogar!\n");
+    
+    if (acertou()) {
+        printf("Parabens! Voce ganhou!\n");
+    } else {
+        printf("Voce perdeu! Tente novamente!\n");
+    }
+    */
+    
     printf("Voce deseja adicionar uma nova palavra no jogo? (S/N) \n");
     scanf(" %c", &resposta);
 
     if (resposta == 'S') {
 
         char novaPalavra[TAMANHO_PALAVRA];
-        printf("Qual a nova palavra? ");
+
+        printf("Digite a nova palavra, em letras maiusculas: ");
         scanf("%s", novaPalavra);
 
         FILE* f = fopen("palavras.txt", "r+");
@@ -137,15 +206,6 @@ void adicionaPalavra() {
         fprintf(f, "\n%s", novaPalavra);
 
         fclose(f);
-
-    } else {
-        printf("Fim de jogo! Obrigado por jogar!\n");
-    }
-
-    if (acertou()) {
-        printf("Parabéns! Você ganhou!\n");
-    } else {
-        printf("Você perdeu! Tente novamente!\n");
     }
 
 }
@@ -193,8 +253,9 @@ int main() {
     printf("*   Jogo de Forca   *\n");
     printf("*********************\n");
     */
-    escolhePalavra();
+    
     abertura();
+    escolhePalavra();
 
     do {
 
@@ -243,6 +304,13 @@ int main() {
         chuta(); // Passamos o endereço em tentativas para se ler na função
 
     } while(!acertou() && enforcou() == NULL); // Usar a exclamação para negar a condição é igual o '== 0'. Usamos isso porque as variáveis são boolenas.
+
+    if(ganhou()) {
+        printf("Parabens! Voce ganhou!\n");
+    } else {
+        printf("Voce perdeu! Tente novamente!\n");
+        printf("A palavra secreta era: **%s**\n", palavraSecreta);
+    }
 
     adicionaPalavra();
 
